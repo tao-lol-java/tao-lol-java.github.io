@@ -152,6 +152,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mybatis-plus乐观锁的应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/10/mybatis-plus%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E5%BA%94%E7%94%A8/">mybatis-plus乐观锁的应用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/10/mybatis-plus%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E5%BA%94%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2020-06-10T02:53:07.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mybatis-plus-乐观锁插件"><a href="#mybatis-plus-乐观锁插件" class="headerlink" title="mybatis -plus 乐观锁插件"></a>mybatis -plus 乐观锁插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为解决定时任务多实例多线程情况下，导致获取数据库数据信息的重复。而使用mybatis-plus的乐观锁插件(公司项目就是用的mybatis-plus)</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是乐观锁什么是悲观锁"><a href="#什么是乐观锁什么是悲观锁" class="headerlink" title="什么是乐观锁什么是悲观锁"></a>什么是乐观锁什么是悲观锁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">悲观锁（Pessimistic Lock）</span><br><span class="line"></span><br><span class="line">当我们要对一个数据库中的一条数据进行修改的时候，为了避免同时被其他人修改，最好的办法就是直接对该数据进行加锁以防止并发。这种借助数据库锁机制，在修改数据之前先锁定，再修改的方式被称之为悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）。</span><br><span class="line"></span><br><span class="line">百度百科：</span><br><span class="line">悲观锁，正如其名，具有强烈的独占和排他特性。它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度。因此，在整个数据处理过程中，将数据处于锁定状态。悲观锁的实现，往往依靠数据库提供的锁机制（也只有数据库层提供的锁机制才能真正保证数据访问的排他性，否则，即使在本系统中实现了加锁机制，也无法保证外部系统不会修改数据）。</span><br><span class="line"></span><br><span class="line">之所以叫做悲观锁，是因为这是一种对数据的修改抱有悲观态度的并发控制方式。我们一般认为数据被并发修改的概率比较大，所以需要在修改之前先加锁。</span><br><span class="line"></span><br><span class="line">乐观锁（ Optimistic Locking ）</span><br><span class="line"></span><br><span class="line">乐观锁是相对悲观锁而言的，乐观锁假设数据一般情况下不会造成冲突，所以在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测，如果发现冲突了，则返回给用户错误的信息，让用户决定如何去做。</span><br><span class="line"></span><br><span class="line">百度百科：</span><br><span class="line">乐观锁机制采取了更加宽松的加锁机制。乐观锁是相对悲观锁而言，也是为了避免数据库幻读、业务处理时间过长等原因引起数据处理错误的一种机制，但乐观锁不会刻意使用数据库本身的锁机制，而是依据数据本身来保证数据的正确性。</span><br><span class="line"></span><br><span class="line">相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。</span><br><span class="line"></span><br><span class="line">作者：小逼崽子你是否有很多问号</span><br><span class="line">链接：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;d2ac26ca6525</span><br><span class="line">来源：简书</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+
+<h4 id="mybatis-plus乐观锁插件的使用"><a href="#mybatis-plus乐观锁插件的使用" class="headerlink" title="mybatis-plus乐观锁插件的使用"></a>mybatis-plus乐观锁插件的使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">当要更新一条记录的时候，希望这条记录没有被别人更新,或已经更新过了</span><br><span class="line">乐观锁实现方式：</span><br><span class="line"></span><br><span class="line">    取出记录时，获取当前version</span><br><span class="line">    更新时，带上这个version</span><br><span class="line">    执行更新时， set version = newVersion where version = oldVersion</span><br><span class="line">    如果version不对，就更新失败</span><br></pre></td></tr></table></figure>
+
+<h5 id="我的问题"><a href="#我的问题" class="headerlink" title="我的问题"></a>我的问题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多个任务同时查询数据库中的数据，要解决，当其中一条数据查询进行更新之后，别的任务就不能在执行更新，需要重新查询第一条任务更新过后的数据再次更新.(乐观锁完美解决问题。)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://mp.baomidou.com/guide/optimistic-locker-plugin.html#_1-%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">mybatis-plus乐观锁官网地址</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/10/mybatis-plus%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E5%BA%94%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Spring-Alibaba-Nacos源码入口" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
