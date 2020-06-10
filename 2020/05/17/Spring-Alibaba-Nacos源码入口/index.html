@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/5 | Hexo</title>
+  <title>Spring Alibaba Nacos源码入口 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/05/index.html">
+  <meta name="description" content="源码入口 1进入spring-cloud-alibaba-nacos-discovery里的spring.fatories文件里的EnableAutoConfiguration对应的NacosDiscoveryAutoConfiguration  进入NacosDiscoveryAutoConfiguration 1234@Bean   NacosRegistration@Bean   Nacos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Alibaba Nacos源码入口">
+<meta property="og:url" content="http://yoursite.com/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="源码入口 1进入spring-cloud-alibaba-nacos-discovery里的spring.fatories文件里的EnableAutoConfiguration对应的NacosDiscoveryAutoConfiguration  进入NacosDiscoveryAutoConfiguration 1234@Bean   NacosRegistration@Bean   Nacos">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-17T08:31:56.000Z">
+<meta property="article:modified_time" content="2020-05-17T10:18:20.006Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,130 +154,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Spring-Alibaba-Nacos源码入口" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Spring Alibaba Nacos源码入口
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/" class="archive-article-date">
+
+        
+        <a href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/" class="archive-article-date">
   	<time datetime="2020-05-17T08:31:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/">Spring Alibaba Nacos源码入口</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>源码入口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">进入spring-cloud-alibaba-nacos-discovery里的spring.fatories文件里的EnableAutoConfiguration对应的NacosDiscoveryAutoConfiguration</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p><strong>进入NacosDiscoveryAutoConfiguration</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span>   NacosRegistration</span><br><span class="line"><span class="meta">@Bean</span>   NacosServiceRegistry</span><br><span class="line"><span class="meta">@Bean</span>   NacosAutoServiceRegistration</span><br><span class="line">查看spring源码时，优先查看Auto字样的服务（代表着spring启动时会自动注册一些服务）</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>NacosAutoServiceRegistration</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NacosAutoServiceRegistration继承了AbstractAutoServiceRegistration实现了AppLicationListener(事件监听器)接口的类，凡是实现AppLicationListener这个接口的类，spring容器启动时会调用处理事件方法onApplicationEvent，在这个方法里调用了bind()——&gt;start()——&gt;register()&#x3D;&#x3D;&#x3D;&#x3D;》serviceRegistry.register(this.getRegistration())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>NacosServiceRegistry</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">serviceRegistry就是NacosServiceRegistry的实例</span><br><span class="line"><span class="meta">@Bean</span>在实例化NacosAutoServiceRegistration，就将NacosServiceRegistry当作对象参数穿了过去就相当与</span><br><span class="line"><span class="meta">@AutoWired</span> NacosServiceRegistry serviceRegistry</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/17/md%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-05-17T03:48:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/17/md%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">md的基本使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/17/md%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">md的基本使用</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87hexo%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-05-15T02:29:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87hexo%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇hexo博客文章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/15/hello-world/" class="archive-article-date">
-  	<time datetime="2020-05-15T02:23:35.315Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/15/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

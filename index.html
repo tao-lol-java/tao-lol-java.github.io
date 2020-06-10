@@ -152,6 +152,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Spring-Alibaba-Nacos源码入口" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/">Spring Alibaba Nacos源码入口</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/" class="archive-article-date">
+  	<time datetime="2020-05-17T08:31:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>源码入口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">进入spring-cloud-alibaba-nacos-discovery里的spring.fatories文件里的EnableAutoConfiguration对应的NacosDiscoveryAutoConfiguration</span><br></pre></td></tr></table></figure>
+
+<p><strong>进入NacosDiscoveryAutoConfiguration</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span>   NacosRegistration</span><br><span class="line"><span class="meta">@Bean</span>   NacosServiceRegistry</span><br><span class="line"><span class="meta">@Bean</span>   NacosAutoServiceRegistration</span><br><span class="line">查看spring源码时，优先查看Auto字样的服务（代表着spring启动时会自动注册一些服务）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>NacosAutoServiceRegistration</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NacosAutoServiceRegistration继承了AbstractAutoServiceRegistration实现了AppLicationListener(事件监听器)接口的类，凡是实现AppLicationListener这个接口的类，spring容器启动时会调用处理事件方法onApplicationEvent，在这个方法里调用了bind()——&gt;start()——&gt;register()&#x3D;&#x3D;&#x3D;&#x3D;》serviceRegistry.register(this.getRegistration())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>NacosServiceRegistry</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">serviceRegistry就是NacosServiceRegistry的实例</span><br><span class="line"><span class="meta">@Bean</span>在实例化NacosAutoServiceRegistration，就将NacosServiceRegistry当作对象参数穿了过去就相当与</span><br><span class="line"><span class="meta">@AutoWired</span> NacosServiceRegistry serviceRegistry</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/17/Spring-Alibaba-Nacos%E6%BA%90%E7%A0%81%E5%85%A5%E5%8F%A3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-md的基本使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
