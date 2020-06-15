@@ -46,7 +46,7 @@
 			<img src="" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">tao yu</a></h1>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
 		</hgroup>
 		
 
@@ -151,6 +151,173 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-String.format的作用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/15/String.format%E7%9A%84%E4%BD%9C%E7%94%A8/">String.format的作用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/15/String.format%E7%9A%84%E4%BD%9C%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2020-06-15T03:31:08.440Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="String-format-的作用"><a href="#String-format-的作用" class="headerlink" title="String.format()的作用"></a>String.format()的作用</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String.format(String str1,Object...args)的作用可以使得str1中，具有指定转换符时，用于替换</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String a = <span class="string">"%s"</span>;</span><br><span class="line">        String b = <span class="string">"abc"</span>;</span><br><span class="line">        String format = String.format(a, b);</span><br><span class="line">        System.out.println(format);</span><br><span class="line">    &#125;</span><br><span class="line">    此输出语句为abc，%s的转换符被abc替换掉了</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常规类型的格式化"><a href="#常规类型的格式化" class="headerlink" title="常规类型的格式化"></a><strong>常规类型的格式化</strong></h2><p>String类的format()方法用于创建格式化的字符串以及连接多个字符串对象。熟悉C语言的同学应该记得C语言的sprintf()方法，两者有类似之处。format()方法有两种重载形式。</p>
+<p>format(String format, Object… args) 新字符串使用本地语言环境，制定字符串格式和参数生成格式化的新字符串。</p>
+<p>format(Locale locale, String format, Object… args) 使用指定的语言环境，制定字符串格式和参数生成格式化的字符串。</p>
+<p>显示不同转换符实现不同数据类型到字符串的转换，如图所示</p>
+<table>
+<thead>
+<tr>
+<th>转  换  符</th>
+<th>说    明</th>
+<th>示    例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%s</td>
+<td>字符串类型</td>
+<td>“mingrisoft”</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>字符类型</td>
+<td>‘m’</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>布尔类型</td>
+<td>true</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>整数类型（十进制）</td>
+<td>99</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>整数类型（十六进制）</td>
+<td>FF</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>整数类型（八进制）</td>
+<td>77</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点类型</td>
+<td>99.99</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>十六进制浮点类型</td>
+<td>FF.35AE</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>指数类型</td>
+<td>9.38e+5</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>通用浮点类型（f和e类型中较短的）</td>
+<td></td>
+</tr>
+<tr>
+<td>%h</td>
+<td>散列码</td>
+<td></td>
+</tr>
+<tr>
+<td>%%</td>
+<td>百分比类型</td>
+<td>％</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>换行符</td>
+<td></td>
+</tr>
+<tr>
+<td>%tx</td>
+<td>日期与时间类型（x代表不同的日期与时间转换符</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>public static void main(String[] args) {  </p>
+<pre><code>String str=null;  
+str=String.format(&quot;Hi,%s&quot;, &quot;王力&quot;);  
+System.out.println(str);  
+str=String.format(&quot;Hi,%s:%s.%s&quot;, &quot;王南&quot;,&quot;王力&quot;,&quot;王张&quot;);            
+System.out.println(str);                           
+System.out.printf(&quot;字母a的大写是：%c %n&quot;, &apos;A&apos;);  
+System.out.printf(&quot;3&gt;7的结果是：%b %n&quot;, 3&gt;7);  
+System.out.printf(&quot;100的一半是：%d %n&quot;, 100/2);  
+System.out.printf(&quot;100的16进制数是：%x %n&quot;, 100);  
+System.out.printf(&quot;100的8进制数是：%o %n&quot;, 100);  
+System.out.printf(&quot;50元的书打8.5折扣是：%f 元%n&quot;, 50*0.85);  
+System.out.printf(&quot;上面价格的16进制数是：%a %n&quot;, 50*0.85);  
+System.out.printf(&quot;上面价格的指数表示：%e %n&quot;, 50*0.85);  
+System.out.printf(&quot;上面价格的指数和浮点数结果的长度较短的是：%g %n&quot;, 50*0.85);  
+System.out.printf(&quot;上面的折扣是%d%% %n&quot;, 85);  
+System.out.printf(&quot;字母A的散列码是：%h %n&quot;, &apos;A&apos;);  </code></pre><p>}</p>
+<p><a href="https://www.cnblogs.com/Dhouse/p/7776780.html" target="_blank" rel="noopener">引用网址</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/15/String.format%E7%9A%84%E4%BD%9C%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-mybatis-plus乐观锁的应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
